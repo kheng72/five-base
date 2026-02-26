@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>Docker Flask Dashboard</title>
+
+<style>
+body{
+    margin:0;
+    font-family: Arial;
+    background: linear-gradient(135deg,#667eea,#764ba2);
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+}
+
+.container{
+    background: rgba(0,0,0,0.25);
+    padding:40px;
+    border-radius:15px;
+    text-align:center;
+    width:420px;
+}
+
+.card{
+    background:white;
+    color:black;
+    padding:15px;
+    margin:15px 0;
+    border-radius:10px;
+}
+
+.ok{
+    color:green;
+    font-weight:bold;
+}
+
+.fail{
+    color:red;
+    font-weight:bold;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Docker Flask Dashboard</h1>
+    <p>System Status</p>
+
+    <div class="card">
+        MySQL :
+        {% if mysql_status %}
+            <span class="ok">Connected</span>
+        {% else %}
+            <span class="fail">Failed</span>
+        {% endif %}
+    </div>
+
+    <div class="card">
+        PostgreSQL :
+        {% if postgres_status %}
+            <span class="ok">Connected</span>
+        {% else %}
+            <span class="fail">Failed</span>
+        {% endif %}
+    </div>
+
+</div>
+
+</body>
+</html>
