@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dashboard</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-r from-purple-400 to-indigo-500 flex items-center justify-center h-screen">
+
+<div class="bg-white p-8 rounded-xl shadow-lg w-96 text-center">
+    <h2 class="text-2xl font-bold mb-4">Welcome {{ username }}</h2>
+
+    <div class="mb-3">
+        <p class="font-semibold">MySQL :
+        {% if mysql_status %}
+            <span class="text-green-600">Connected</span>
+        {% else %}
+            <span class="text-red-600">Failed</span>
+        {% endif %}
+        </p>
+    </div>
+
+    <div class="mb-4">
+        <p class="font-semibold">PostgreSQL :
+        {% if postgres_status %}
+            <span class="text-green-600">Connected</span>
+        {% else %}
+            <span class="text-red-600">Failed</span>
+        {% endif %}
+        </p>
+    </div>
+
+    <a href="/logout"
+       class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg">
+       Logout
+    </a>
+</div>
+
+</body>
+</html>
