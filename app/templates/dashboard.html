@@ -257,6 +257,112 @@ transition:0.3s;
 .ruby{background:linear-gradient(135deg,#7f1d1d,#ef4444);}
 .sapphire{background:linear-gradient(135deg,#1e3a8a,#3b82f6);}
 
+.ad-sidebar {
+    position: fixed;
+    top: 100px; /* ขยับลงมาจากด้านบนหน่อย */
+    width: 160px; /* ความกว้างมาตรฐาน Banner ข้าง */
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.ad-left {
+    left: 20px;
+}
+
+.ad-right {
+    right: 20px;
+}
+
+.ad-item {
+    position: relative;
+    width: 100%;
+    border: 2px solid var(--gem-solid);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    transition: transform 0.3s;
+}
+
+.ad-item:hover {
+    transform: scale(1.05);
+}
+
+.ad-item img {
+    width: 100%;
+    display: block;
+    cursor: pointer;
+}
+
+/* ปุ่มปิดโฆษณา (ปุ่ม X) */
+.close-ad {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background: rgba(255, 0, 0, 0.8);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+/* =========================
+   📺 MAIN CENTER ADS
+   ========================= */
+.main-ads-container {
+    max-width: 1000px; /* ปรับความกว้างตามต้องการ */
+    margin: 0 auto 2rem auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 5;
+    position: relative;
+}
+
+.center-ad-item {
+    position: relative;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    border: 1px solid var(--border-gem);
+    transition: transform 0.2s;
+}
+
+.center-ad-item:hover {
+    transform: scale(1.01);
+}
+
+.center-ad-item img {
+    width: 100%;
+    display: block;
+}
+
+.close-center-ad {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
 </style>
 </head>
 
@@ -283,7 +389,23 @@ Welcome, <strong>{{ session['username'] }}</strong> |
 <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
 </div>
 </div>
+<div class="main-ads-container">
+    
+    <div class="center-ad-item">
+        <button class="close-center-ad" onclick="this.parentElement.style.display='none'">×</button>
+        <a href="#">
+            <img src="{{ url_for('static', filename='Gemini_Generated_Image_g8ra04g8ra04g8ra.png') }}" alt="Center Ad 1">
+        </a>
+    </div>
 
+    <div class="center-ad-item">
+        <button class="close-center-ad" onclick="this.parentElement.style.display='none'">×</button>
+        <a href="#">
+            <img src="{{ url_for('static', filename='SATAYU888.png') }}" alt="Center Ad 2">
+        </a>
+    </div>
+
+</div>
 <div class="top-actions">
     <a href="https://drive.google.com/drive/u/0/home" target="_blank">
         <button class="btn btn-primary">Home</button>
@@ -332,7 +454,19 @@ Welcome, <strong>{{ session['username'] }}</strong> |
 {% endfor %}
 </tbody>
 </table>
+<div class="ad-sidebar ad-left">
+    <div class="ad-item">
+        <button class="close-ad" onclick="this.parentElement.style.display='none'">×</button>
+        <a href="#"><img src="{{ url_for('static', filename='Untitled design.gif') }}" alt="ads"></a>
+    </div>
+</div>
 
+<div class="ad-sidebar ad-right">
+    <div class="ad-item">
+        <button class="close-ad" onclick="this.parentElement.style.display='none'">×</button>
+        <a href="#"><img src="{{ url_for('static', filename='Untitled design.gif') }}" alt="ads"></a>
+    </div>
+</div>
 <script>
 
 /* PARTICLES */
