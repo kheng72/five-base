@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Secure Mini Drive</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --danger: #dc2626;
+            --bg: #f9fafb;
+            --text: #111827;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 2rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logout-btn {
+            color: var(--danger);
+            text-decoration: none;
+            font-size: 0.875rem;
+        }
+
+        .upload-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .upload-form {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        table {
+            width: 100%;
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            border-collapse: collapse;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        th {
+            background: #fdfdfd;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-danger {
+            background: #fee2e2;
+            color: var(--danger);
+        }
+
+        .flash {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .flash.success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .flash.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Secure Mini Drive</h1>
+        <div class="user-info">
+            <span>Welcome, <strong>{{ session['username'] }}</strong></span>
+            <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+        </div>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div
+        class="flash {% if 'success' in message|lower or 'successful' in message|lower %}success{% else %}error{% endif %}">
+        {{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="upload-section">
+        <h3>Upload New File</h3>
+        <form action="{{ url_for('upload_file') }}" method="POST" enctype="multipart/form-data" class="upload-form">
+            <input type="file" name="file" required>
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+        <p style="font-size: 0.75rem; color: #6b7280; margin-top: 0.5rem;">Allowed: png, jpg, jpeg, mp4, mov (Max 50MB)
+        </p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Filename</th>
+                <th>Type</th>
+                <th>Size</th>
+                <th>Uploaded At</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for file in files %}
+            <tr>
+                <td>{{ file['filename'].split('_', 1)[1] if '_' in file['filename'] else file['filename'] }}</td>
+                <td>{{ file['filetype'].upper() }}</td>
+                <td>{{ (file['filesize'] / 1024 / 1024) | round(2) }} MB</td>
+                <td>{{ file['uploaded_at'].strftime('%Y-%m-%d %H:%M') }}</td>
+                <td style="display: flex; gap: 0.5rem;">
+                    <a href="{{ url_for('download_file', file_id=file['id']) }}" class="btn btn-primary">Download</a>
+                    <form action="{{ url_for('delete_file', file_id=file['id']) }}" method="POST" style="margin: 0;"
+                        onsubmit="return confirm('Are you sure?')">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5" style="text-align: center; color: #6b7280;">No files uploaded yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>
