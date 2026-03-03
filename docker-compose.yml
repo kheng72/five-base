@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   db:
@@ -11,7 +11,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}" ]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -26,11 +26,14 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_HOST=${DB_HOST}
       - FLASK_APP=${FLASK_APP}
-      - FLASK_ENV=${FLASK_ENV}
+      - FLASK_DEBUG=1 #switch to ${FLASK_ENV} when dev is done, only for hot reload
+      # - FLASK_ENV=${FLASK_ENV}
       - SECRET_KEY=${SECRET_KEY}
       - MAX_CONTENT_LENGTH=${MAX_CONTENT_LENGTH}
     volumes:
+      - ./app:/app/app #delete this when dev is done, only for hot reload
       - ./app/uploads:/app/app/uploads
+    command: flask run --host=0.0.0.0 --reload #delete --reload when dev is done, only for hot reload
     depends_on:
       db:
         condition: service_healthy
