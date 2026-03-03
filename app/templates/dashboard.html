@@ -1,338 +1,417 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard - Satayu Save</title>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - Satayu Save 888</title>
 
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
-    <style>
-      /* =========================
-🌟 THEME SYSTEM
+<style>
+
+/* =========================
+🌟 THEME VARIABLES
 ========================= */
 
-      :root {
-        --gem-gradient: linear-gradient(
-          135deg,
-          #bf953f,
-          #fcf6ba,
-          #b38728,
-          #fbf5b7,
-          #aa771c
-        );
-        --gem-solid: #d4af37;
-        --bg: #f9fafb;
-        --card-bg: #ffffff;
-        --text: #111827;
-        --border-gem: rgba(212, 175, 55, 0.4);
-        --danger: #dc2626;
-      }
+:root{
+--gem-gradient:linear-gradient(135deg,#bf953f,#fcf6ba,#b38728,#fbf5b7,#aa771c);
+--gem-solid:#d4af37;
+--border-gem:rgba(212,175,55,0.4);
+--danger:#f87171;
+}
 
-      body[data-theme="emerald"] {
-        --gem-gradient: linear-gradient(135deg, #065f46, #10b981);
-        --gem-solid: #10b981;
-        --border-gem: rgba(16, 185, 129, 0.4);
-      }
+body[data-theme="emerald"]{
+--gem-gradient:linear-gradient(135deg,#065f46,#10b981);
+--gem-solid:#10b981;
+--border-gem:rgba(16,185,129,0.4);
+}
 
-      body[data-theme="ruby"] {
-        --gem-gradient: linear-gradient(135deg, #7f1d1d, #ef4444);
-        --gem-solid: #dc2626;
-        --border-gem: rgba(220, 38, 38, 0.4);
-      }
+body[data-theme="ruby"]{
+--gem-gradient:linear-gradient(135deg,#7f1d1d,#ef4444);
+--gem-solid:#dc2626;
+--border-gem:rgba(220,38,38,0.4);
+}
 
-      body[data-theme="sapphire"] {
-        --gem-gradient: linear-gradient(135deg, #1e3a8a, #3b82f6);
-        --gem-solid: #3b82f6;
-        --border-gem: rgba(59, 130, 246, 0.4);
-      }
+body[data-theme="sapphire"]{
+--gem-gradient:linear-gradient(135deg,#1e3a8a,#3b82f6);
+--gem-solid:#3b82f6;
+--border-gem:rgba(59,130,246,0.4);
+}
 
-      /* =========================
-BASE STYLE
+/* =========================
+🌌 COSMIC BACKGROUND
 ========================= */
 
-      body {
-        font-family: "Inter", sans-serif;
-        background: var(--bg);
-        color: var(--text);
-        margin: 0;
-        padding: 2rem;
-      }
+body{
+font-family:'Inter',sans-serif;
+margin:0;
+padding:2rem;
+background:radial-gradient(circle at 20% 20%,#1e3a8a,#0f172a 60%);
+color:white;
+animation:fadeIn 0.8s ease;
+}
 
-      /* =========================
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(10px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+#particles{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-2;
+}
+
+.cursor-glow{
+position:fixed;
+width:300px;
+height:300px;
+border-radius:50%;
+pointer-events:none;
+background:radial-gradient(circle,var(--gem-solid),transparent 70%);
+opacity:0.15;
+transform:translate(-50%,-50%);
+z-index:-1;
+}
+
+/* =========================
 HEADER
 ========================= */
 
-      .header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 2rem;
-      }
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:2rem;
+}
 
-      .header h1 {
-        background: var(--gem-gradient);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        font-size: 1.8rem;
-      }
+.header h1{
+background:var(--gem-gradient);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+font-size:2rem;
+}
 
-      .user-info {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-      }
+.header .pedpedped{
+font-size:5rem;
+color:var(--gem-solid);
+font-weight:600;
+align-items: left;
+position: absolute;
+padding-left: 200px;
+}
 
-      .logout-btn {
-        color: var(--danger);
-        text-decoration: none;
-        font-size: 0.875rem;
-      }
+.logout-btn{
+color:var(--danger);
+text-decoration:none;
+}
 
-      /* =========================
-ELITE THEME PANEL
+/* =========================
+GLASS CARDS
 ========================= */
 
-      .theme-panel {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        display: flex;
-        gap: 10px;
-        padding: 12px;
-        border-radius: 40px;
-        background: white;
-        border: 1px solid var(--border-gem);
-        box-shadow: 0 0 15px var(--border-gem);
-      }
+.upload-section,
+table{
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(20px);
+border-radius:1.5rem;
+border:1px solid rgba(255,255,255,0.2);
+box-shadow:0 0 30px var(--border-gem);
+}
 
-      .theme-orb {
-        width: 22px;
-        height: 22px;
-        border-radius: 50%;
-        cursor: pointer;
-        border: 2px solid white;
-        transition: 0.3s;
-      }
+.upload-section{
+padding:1.5rem;
+margin-bottom:2rem;
+transition:0.2s;
+}
 
-      .theme-orb:hover {
-        transform: scale(1.2);
-      }
+.upload-form{
+display:flex;
+gap:1rem;
+align-items:center;
+}
 
-      .gold {
-        background: linear-gradient(135deg, #bf953f, #fcf6ba);
-      }
-      .emerald {
-        background: linear-gradient(135deg, #065f46, #10b981);
-      }
-      .ruby {
-        background: linear-gradient(135deg, #7f1d1d, #ef4444);
-      }
-      .sapphire {
-        background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-      }
+table{
+width:100%;
+border-collapse:collapse;
+overflow:hidden;
+}
 
-      /* =========================
-UPLOAD SECTION
-========================= */
+th,td{
+padding:1rem;
+border-bottom:1px solid rgba(255,255,255,0.1);
+}
 
-      .upload-section {
-        background: white;
-        padding: 1.5rem;
-        border-radius: 1rem;
-        margin-bottom: 2rem;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        border: 1px solid var(--border-gem);
-      }
+th{
+font-weight:600;
+font-size:0.875rem;
+}
 
-      .upload-form {
-        display: flex;
-        gap: 1rem;
-        align-items: center;
-      }
-
-      /* =========================
-TABLE
-========================= */
-
-      table {
-        width: 100%;
-        background: white;
-        border-radius: 1rem;
-        overflow: hidden;
-        border-collapse: collapse;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        border: 1px solid var(--border-gem);
-      }
-
-      th,
-      td {
-        padding: 1rem;
-        text-align: left;
-        border-bottom: 1px solid #f3f4f6;
-      }
-
-      th {
-        background: #fdfdfd;
-        font-weight: 600;
-        font-size: 0.875rem;
-      }
-
-      /* =========================
+/* =========================
 BUTTONS
 ========================= */
 
-      .btn {
-        padding: 0.5rem 1rem;
-        border-radius: 0.5rem;
-        text-decoration: none;
-        font-size: 0.875rem;
-        font-weight: 500;
-        cursor: pointer;
-        border: none;
-      }
+.btn{
+padding:0.6rem 1rem;
+border-radius:0.75rem;
+border:none;
+cursor:pointer;
+font-weight:500;
+position:relative;
+overflow:hidden;
+transition:0.3s;
+}
 
-      .btn-primary {
-        background: var(--gem-gradient);
-        color: white;
-      }
+.btn-primary{
+background:var(--gem-gradient);
+color:white;
+}
 
-      .btn-danger {
-        background: #fee2e2;
-        color: var(--danger);
-      }
+.btn-danger{
+background:rgba(248,113,113,0.15);
+color:#f87171;
+}
 
-      .top-actions {
-        margin-bottom: 1rem;
-        display: flex;
-        gap: 1rem;
-      }
-    </style>
-  </head>
+.btn:hover{
+transform:translateY(-3px);
+box-shadow:0 0 15px var(--gem-solid);
+}
 
-  <body>
-    <!-- Elite Theme Selector -->
-    <!-- <div class="theme-panel">
+.top-actions{
+margin-bottom:1.5rem;
+display:flex;
+gap:1rem;
+}
+
+/* Ripple */
+.ripple{
+position:absolute;
+border-radius:50%;
+transform:scale(0);
+animation:ripple 0.6s linear;
+background:rgba(255,255,255,0.6);
+}
+
+@keyframes ripple{
+to{transform:scale(4);opacity:0;}
+}
+
+/* =========================
+THEME PANEL
+========================= */
+
+.theme-wrapper{
+position:fixed;
+top:20px;
+right:20px;
+display:flex;
+align-items:center;
+gap:10px;
+z-index:999;
+}
+
+.theme-toggle{
+width:34px;
+height:34px;
+border-radius:50%;
+border:none;
+cursor:pointer;
+background:var(--gem-gradient);
+color:white;
+box-shadow:0 0 10px var(--border-gem);
+}
+
+.theme-panel{
+display:flex;
+gap:10px;
+padding:12px;
+border-radius:40px;
+background:white;
+border:1px solid var(--border-gem);
+box-shadow:0 0 15px var(--border-gem);
+transition:0.3s;
+}
+
+.theme-panel.hidden{
+opacity:0;
+transform:translateX(20px);
+pointer-events:none;
+}
+
+.theme-orb{
+width:22px;
+height:22px;
+border-radius:50%;
+cursor:pointer;
+border:2px solid white;
+transition:0.3s;
+}
+
+.theme-orb:hover{transform:scale(1.2);}
+
+.gold{background:linear-gradient(135deg,#bf953f,#fcf6ba);}
+.emerald{background:linear-gradient(135deg,#065f46,#10b981);}
+.ruby{background:linear-gradient(135deg,#7f1d1d,#ef4444);}
+.sapphire{background:linear-gradient(135deg,#1e3a8a,#3b82f6);}
+
+</style>
+</head>
+
+<body>
+
+<canvas id="particles"></canvas>
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<div class="theme-wrapper">
+<button class="theme-toggle" onclick="toggleThemePanel()" id="themeArrow">❮</button>
+<div class="theme-panel" id="themePanel">
 <div class="theme-orb gold" onclick="setTheme('default')"></div>
 <div class="theme-orb emerald" onclick="setTheme('emerald')"></div>
 <div class="theme-orb ruby" onclick="setTheme('ruby')"></div>
 <div class="theme-orb sapphire" onclick="setTheme('sapphire')"></div>
-</div> -->
+</div>
+</div>
 
-    <div class="header">
-      <h1>Satayu Save</h1>
+<div class="header">
+<h1>Satayu Save</h1>
+<h1 class="pedpedped">888</h1>
+<div>
+Welcome, <strong>{{ session['username'] }}</strong> |
+<a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+</div>
+</div>
 
-      <div class="user-info">
-        <span>Welcome, <strong>{{ session['username'] }}</strong></span>
-        <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
-      </div>
-    </div>
+<div class="top-actions">
+    <a href="https://drive.google.com/drive/u/0/home" target="_blank">
+        <button class="btn btn-primary">Home</button>
+    </a>
+    <a href="https://rick.nerial.uk/" target="_blank">
+        <button class="btn btn-primary">Learn more</button>
+    </a>
+</div>
 
-    <!-- 🔥 ปุ่มเพิ่มข้อมูล + กลับหน้าแรก -->
-    <div class="top-actions">
-      <a href="https://drive.google.com/drive/u/0/home" target="_blank"
-        ><button class="btn btn-primary">Home</button></a
-      >
-      <a href="https://rick.nerial.uk/" target="_blank"
-        ><button class="btn btn-primary">Learn more</button></a
-      >
-    </div>
+<div class="upload-section">
+<h3>Upload New File</h3>
+<form action="{{ url_for('upload_file') }}" method="POST" enctype="multipart/form-data" class="upload-form">
+<input type="file" name="file" required>
+<button type="submit" class="btn btn-primary">Upload</button>
+</form>
+</div>
 
-    {% with messages = get_flashed_messages() %} {% if messages %} {% for
-    message in messages %}
-    <div
-      style="
-        margin-bottom: 1rem;
-        padding: 1rem;
-        border-radius: 0.5rem;
-        background: #f3f4f6;
-      "
-    >
-      {{ message }}
-    </div>
-    {% endfor %} {% endif %} {% endwith %}
+<table>
+<thead>
+<tr>
+<th>Filename</th>
+<th>Type</th>
+<th>Size</th>
+<th>Uploaded</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody>
+{% for file in files %}
+<tr>
+<td>{{ file['filename'] }}</td>
+<td>{{ file['filetype'].upper() }}</td>
+<td>{{ (file['filesize'] / 1024 / 1024) | round(2) }} MB</td>
+<td>{{ file['uploaded_at'].strftime('%Y-%m-%d %H:%M') }}</td>
+<td style="display:flex;gap:0.5rem;">
+<a href="{{ url_for('download_file', file_id=file['id']) }}" class="btn btn-primary">Download</a>
+<form action="{{ url_for('delete_file', file_id=file['id']) }}" method="POST">
+<button type="submit" class="btn btn-danger">Delete</button>
+</form>
+</td>
+</tr>
+{% else %}
+<tr>
+<td colspan="5" style="text-align:center;">No files uploaded yet.</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
 
-    <div class="upload-section">
-      <h3>Upload New File</h3>
-      <form
-        action="{{ url_for('upload_file') }}"
-        method="POST"
-        enctype="multipart/form-data"
-        class="upload-form"
-      >
-        <input type="file" name="file" required />
-        <button type="submit" class="btn btn-primary">Upload</button>
-      </form>
-      <p style="font-size: 0.75rem; color: #6b7280; margin-top: 0.5rem">
-        Allowed: png, jpg, jpeg, mp4, mov (Max 50MB)
-      </p>
-    </div>
+<script>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Filename</th>
-          <th>Type</th>
-          <th>Size</th>
-          <th>Uploaded At</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for file in files %}
-        <tr>
-          <td>
-            {{ file['filename'].split('_', 1)[1] if '_' in file['filename'] else
-            file['filename'] }}
-          </td>
-          <td>{{ file['filetype'].upper() }}</td>
-          <td>{{ (file['filesize'] / 1024 / 1024) | round(2) }} MB</td>
-          <td>{{ file['uploaded_at'].strftime('%Y-%m-%d %H:%M') }}</td>
-          <td style="display: flex; gap: 0.5rem">
-            <a
-              href="{{ url_for('download_file', file_id=file['id']) }}"
-              class="btn btn-primary"
-              >Download</a
-            >
-            <form
-              action="{{ url_for('delete_file', file_id=file['id']) }}"
-              method="POST"
-              style="margin: 0"
-              onsubmit="return confirm('Are you sure?');"
-            >
-              <button type="submit" class="btn btn-danger">Delete</button>
-            </form>
-          </td>
-        </tr>
-        {% else %}
-        <tr>
-          <td colspan="5" style="text-align: center; color: #6b7280">
-            No files uploaded yet.
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+/* PARTICLES */
+const canvas=document.getElementById("particles");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
 
-    <script>
-      function setTheme(theme) {
-        if (theme === "default") {
-          document.body.removeAttribute("data-theme");
-          localStorage.removeItem("theme");
-        } else {
-          document.body.setAttribute("data-theme", theme);
-          localStorage.setItem("theme", theme);
-        }
-      }
-      window.onload = function () {
-        const saved = localStorage.getItem("theme");
-        if (saved) {
-          document.body.setAttribute("data-theme", saved);
-        }
-      };
-    </script>
-  </body>
+let particles=[];
+for(let i=0;i<70;i++){
+particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2+1});
+}
+
+function draw(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle="rgba(255,255,255,0.6)";
+ctx.beginPath();
+for(let p of particles){
+ctx.moveTo(p.x,p.y);
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2,true);
+p.y+=0.5;
+if(p.y>canvas.height)p.y=0;
+}
+ctx.fill();
+requestAnimationFrame(draw);
+}
+draw();
+
+/* CURSOR GLOW */
+const glow=document.getElementById("cursorGlow");
+document.addEventListener("mousemove",(e)=>{
+glow.style.left=e.clientX+"px";
+glow.style.top=e.clientY+"px";
+});
+
+/* RIPPLE */
+document.querySelectorAll(".btn").forEach(btn=>{
+btn.addEventListener("click",function(e){
+const circle=document.createElement("span");
+const d=Math.max(this.clientWidth,this.clientHeight);
+circle.style.width=circle.style.height=d+"px";
+circle.style.left=e.offsetX-d/2+"px";
+circle.style.top=e.offsetY-d/2+"px";
+circle.classList.add("ripple");
+this.appendChild(circle);
+setTimeout(()=>circle.remove(),600);
+});
+});
+
+/* THEME SYSTEM */
+function setTheme(theme){
+if(theme==="default"){
+document.body.removeAttribute("data-theme");
+localStorage.removeItem("theme");
+}else{
+document.body.setAttribute("data-theme",theme);
+localStorage.setItem("theme",theme);
+}
+}
+
+function toggleThemePanel(){
+const panel=document.getElementById("themePanel");
+const arrow=document.getElementById("themeArrow");
+panel.classList.toggle("hidden");
+arrow.innerHTML=panel.classList.contains("hidden")?"❯":"❮";
+localStorage.setItem("themePanel",panel.classList.contains("hidden")?"hidden":"show");
+}
+
+window.onload=function(){
+const savedTheme=localStorage.getItem("theme");
+if(savedTheme){document.body.setAttribute("data-theme",savedTheme);}
+const panelState=localStorage.getItem("themePanel");
+if(panelState==="hidden"){
+document.getElementById("themePanel").classList.add("hidden");
+document.getElementById("themeArrow").innerHTML="❯";
+}
+}
+
+</script>
+
+</body>
 </html>

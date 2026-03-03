@@ -1,123 +1,285 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Secure Mini Drive</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #4f46e5;
-            --bg: #f9fafb;
-            --text: #111827;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register - Satayu Save</title>
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
-        .container {
-            background: white;
-            padding: 2rem;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-        }
+<style>
 
-        h2 {
-            margin-bottom: 1.5rem;
-            font-weight: 600;
-            text-align: center;
-        }
+/* =========================
+🌌 FINAL BOSS BACKGROUND
+========================= */
 
-        .form-group {
-            margin-bottom: 1rem;
-        }
+body{
+font-family:'Inter',sans-serif;
+margin:0;
+display:flex;
+align-items:center;
+justify-content:center;
+height:100vh;
+overflow:hidden;
+background:radial-gradient(circle at 20% 20%,#1e3a8a,#0f172a 60%);
+animation:fadeIn 0.8s ease;
+}
 
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 0.875rem;
-        }
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(10px);}
+to{opacity:1;transform:translateY(0);}
+}
 
-        input {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.5rem;
-            box-sizing: border-box;
-        }
+#particles{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-2;
+}
 
-        button {
-            width: 100%;
-            padding: 0.75rem;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 1rem;
-        }
+.cursor-glow{
+position:fixed;
+width:250px;
+height:250px;
+border-radius:50%;
+pointer-events:none;
+background:radial-gradient(circle,rgba(59,130,246,0.4),transparent 70%);
+transform:translate(-50%,-50%);
+z-index:-1;
+}
 
-        button:hover {
-            opacity: 0.9;
-        }
+/* =========================
+CARD
+========================= */
 
-        .links {
-            margin-top: 1.5rem;
-            text-align: center;
-            font-size: 0.875rem;
-        }
+.container{
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(20px);
+padding:2rem;
+border-radius:1.5rem;
+box-shadow:0 0 30px rgba(59,130,246,0.4);
+width:100%;
+max-width:400px;
+border:1px solid rgba(255,255,255,0.2);
+transition:transform 0.2s ease;
+}
 
-        .links a {
-            color: var(--primary);
-            text-decoration: none;
-        }
+h2{
+text-align:center;
+margin-bottom:1.5rem;
+color:white;
+letter-spacing:1px;
+}
 
-        .flash {
-            color: #dc2626;
-            font-size: 0.875rem;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-    </style>
+.form-group{
+margin-bottom:1rem;
+}
+
+label{
+display:block;
+margin-bottom:0.5rem;
+font-size:0.875rem;
+color:#e5e7eb;
+}
+
+input{
+width:100%;
+padding:0.75rem;
+border-radius:0.75rem;
+border:none;
+outline:none;
+background:rgba(255,255,255,0.1);
+color:white;
+}
+
+input:focus{
+box-shadow:0 0 10px #3b82f6;
+}
+
+button{
+width:100%;
+padding:0.75rem;
+background:linear-gradient(135deg,#3b82f6,#06b6d4);
+color:white;
+border:none;
+border-radius:0.75rem;
+font-weight:600;
+cursor:pointer;
+margin-top:1rem;
+position:relative;
+overflow:hidden;
+transition:0.3s;
+}
+
+button:hover{
+transform:translateY(-3px);
+box-shadow:0 0 20px #3b82f6;
+}
+
+.links{
+margin-top:1.5rem;
+text-align:center;
+font-size:0.875rem;
+color:#e5e7eb;
+}
+
+.links a{
+color:#3b82f6;
+text-decoration:none;
+}
+
+.flash{
+color:#f87171;
+font-size:0.875rem;
+margin-bottom:1rem;
+text-align:center;
+}
+
+/* Ripple */
+.ripple{
+position:absolute;
+border-radius:50%;
+transform:scale(0);
+animation:ripple 0.6s linear;
+background:rgba(255,255,255,0.6);
+}
+
+@keyframes ripple{
+to{transform:scale(4);opacity:0;}
+}
+
+</style>
 </head>
 
 <body>
-    <div class="container">
-        <h2>Create Account</h2>
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        {% for message in messages %}
-        <div class="flash">{{ message }}</div>
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
-        <form method="POST">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit">Register</button>
-        </form>
-        <div class="links">
-            Already have an account? <a href="{{ url_for('login') }}">Login</a>
-        </div>
-    </div>
-</body>
 
+<canvas id="particles"></canvas>
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<div class="container">
+<h2>Create Account</h2>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<div class="flash">{{ message }}</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<form method="POST">
+<div class="form-group">
+<label>Username</label>
+<input type="text" name="username" required>
+</div>
+
+<div class="form-group">
+<label>Password</label>
+<input type="password" name="password" required>
+</div>
+
+<button type="submit">Register</button>
+</form>
+
+<div class="links">
+Already have an account? <a href="{{ url_for('login') }}">Login</a>
+</div>
+</div>
+
+<script>
+
+/* =========================
+✨ PARTICLES
+========================= */
+const canvas=document.getElementById("particles");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let particles=[];
+for(let i=0;i<60;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*2+1,
+d:Math.random()*1
+});
+}
+
+function draw(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle="rgba(255,255,255,0.6)";
+ctx.beginPath();
+for(let i=0;i<particles.length;i++){
+let p=particles[i];
+ctx.moveTo(p.x,p.y);
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2,true);
+}
+ctx.fill();
+update();
+}
+
+let angle=0;
+function update(){
+angle+=0.01;
+for(let i=0;i<particles.length;i++){
+let p=particles[i];
+p.y+=Math.cos(angle+p.d)+1+p.r/2;
+p.x+=Math.sin(angle)*0.5;
+if(p.y>canvas.height){
+particles[i]={x:Math.random()*canvas.width,y:-10,r:p.r,d:p.d};
+}
+}
+}
+
+setInterval(draw,33);
+
+/* =========================
+🧿 CURSOR GLOW
+========================= */
+const glow=document.getElementById("cursorGlow");
+document.addEventListener("mousemove",(e)=>{
+glow.style.left=e.clientX+"px";
+glow.style.top=e.clientY+"px";
+});
+
+/* =========================
+🧊 3D TILT
+========================= */
+const card=document.querySelector(".container");
+card.addEventListener("mousemove",(e)=>{
+const rect=card.getBoundingClientRect();
+const x=e.clientX-rect.left;
+const y=e.clientY-rect.top;
+const centerX=rect.width/2;
+const centerY=rect.height/2;
+const rotateX=(y-centerY)/15;
+const rotateY=(centerX-x)/15;
+card.style.transform=`rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+});
+card.addEventListener("mouseleave",()=>{
+card.style.transform="rotateX(0) rotateY(0)";
+});
+
+/* =========================
+⚡ RIPPLE
+========================= */
+document.querySelectorAll("button").forEach(btn=>{
+btn.addEventListener("click",function(e){
+const circle=document.createElement("span");
+const diameter=Math.max(this.clientWidth,this.clientHeight);
+circle.style.width=circle.style.height=diameter+"px";
+circle.style.left=e.offsetX-diameter/2+"px";
+circle.style.top=e.offsetY-diameter/2+"px";
+circle.classList.add("ripple");
+this.appendChild(circle);
+setTimeout(()=>circle.remove(),600);
+});
+});
+
+</script>
+
+</body>
 </html>

@@ -1,130 +1,397 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Secure Mini Drive</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #4f46e5;
-            --bg: #f9fafb;
-            --text: #111827;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Satayu Save</title>
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
-        .container {
-            background: white;
-            padding: 2rem;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-        }
+<style>
 
-        h2 {
-            margin-bottom: 1.5rem;
-            font-weight: 600;
-            text-align: center;
-        }
+/* =========================
+🌟 THEME VARIABLES
+========================= */
 
-        .form-group {
-            margin-bottom: 1rem;
-        }
+:root{
+--gem-gradient:linear-gradient(135deg,#bf953f,#fcf6ba,#b38728,#fbf5b7,#aa771c);
+--gem-solid:#d4af37;
+--border-gem:rgba(212,175,55,0.4);
+}
 
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 0.875rem;
-        }
+body[data-theme="emerald"]{
+--gem-gradient:linear-gradient(135deg,#065f46,#10b981);
+--gem-solid:#10b981;
+--border-gem:rgba(16,185,129,0.4);
+}
 
-        input {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.5rem;
-            box-sizing: border-box;
-        }
+body[data-theme="ruby"]{
+--gem-gradient:linear-gradient(135deg,#7f1d1d,#ef4444);
+--gem-solid:#dc2626;
+--border-gem:rgba(220,38,38,0.4);
+}
 
-        button {
-            width: 100%;
-            padding: 0.75rem;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 1rem;
-        }
+body[data-theme="sapphire"]{
+--gem-gradient:linear-gradient(135deg,#1e3a8a,#3b82f6);
+--gem-solid:#3b82f6;
+--border-gem:rgba(59,130,246,0.4);
+}
 
-        button:hover {
-            opacity: 0.9;
-        }
+/* =========================
+🌌 COSMIC BACKGROUND
+========================= */
 
-        .links {
-            margin-top: 1.5rem;
-            text-align: center;
-            font-size: 0.875rem;
-        }
+body{
+font-family:'Inter',sans-serif;
+margin:0;
+display:flex;
+align-items:center;
+justify-content:center;
+height:100vh;
+overflow:hidden;
+background:radial-gradient(circle at 20% 20%,#1e3a8a,#0f172a 60%);
+animation:fadeIn 0.8s ease;
+}
 
-        .links a {
-            color: var(--primary);
-            text-decoration: none;
-        }
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(10px);}
+to{opacity:1;transform:translateY(0);}
+}
 
-        .flash {
-            font-size: 0.875rem;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
+#particles{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-2;
+}
 
-        .flash.error {
-            color: #dc2626;
-        }
+.cursor-glow{
+position:fixed;
+width:250px;
+height:250px;
+border-radius:50%;
+pointer-events:none;
+background:radial-gradient(circle,var(--gem-solid),transparent 70%);
+opacity:0.25;
+transform:translate(-50%,-50%);
+z-index:-1;
+}
 
-        .flash.success {
-            color: #16a34a;
-        }
-    </style>
+/* =========================
+💎 GLASS CARD
+========================= */
+
+.container{
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(20px);
+padding:2rem;
+border-radius:1.5rem;
+box-shadow:0 0 30px var(--border-gem);
+width:100%;
+max-width:400px;
+border:1px solid rgba(255,255,255,0.2);
+transition:transform 0.2s ease;
+}
+
+h2{
+text-align:center;
+margin-bottom:1.5rem;
+background:var(--gem-gradient);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.form-group{
+margin-bottom:1rem;
+}
+
+label{
+display:block;
+margin-bottom:0.5rem;
+font-size:0.875rem;
+color:#e5e7eb;
+}
+
+input{
+width:100%;
+padding:0.75rem;
+border-radius:0.75rem;
+border:none;
+outline:none;
+background:rgba(255,255,255,0.1);
+color:white;
+}
+
+input:focus{
+box-shadow:0 0 12px var(--gem-solid);
+}
+
+button{
+width:100%;
+padding:0.75rem;
+background:var(--gem-gradient);
+color:white;
+border:none;
+border-radius:0.75rem;
+font-weight:600;
+cursor:pointer;
+margin-top:1rem;
+position:relative;
+overflow:hidden;
+transition:0.3s;
+}
+
+button:hover{
+transform:translateY(-3px);
+box-shadow:0 0 20px var(--gem-solid);
+}
+
+.links{
+margin-top:1.5rem;
+text-align:center;
+font-size:0.875rem;
+color:#e5e7eb;
+}
+
+.links a{
+color:var(--gem-solid);
+text-decoration:none;
+}
+
+.flash{
+font-size:0.875rem;
+margin-bottom:1rem;
+text-align:center;
+color:#f87171;
+}
+
+/* Ripple */
+.ripple{
+position:absolute;
+border-radius:50%;
+transform:scale(0);
+animation:ripple 0.6s linear;
+background:rgba(255,255,255,0.6);
+}
+
+@keyframes ripple{
+to{transform:scale(4);opacity:0;}
+}
+
+/* =========================
+THEME PANEL
+========================= */
+
+.theme-wrapper{
+position:fixed;
+top:20px;
+right:20px;
+display:flex;
+align-items:center;
+gap:10px;
+z-index:9999;
+}
+
+.theme-toggle{
+width:34px;
+height:34px;
+border-radius:50%;
+border:none;
+cursor:pointer;
+font-size:16px;
+background:var(--gem-gradient);
+color:white;
+box-shadow:0 0 10px var(--border-gem);
+transition:0.3s;
+}
+
+.theme-toggle:hover{
+transform:scale(1.1);
+}
+
+.theme-panel{
+display:flex;
+gap:10px;
+padding:12px;
+border-radius:40px;
+background:white;
+border:1px solid var(--border-gem);
+box-shadow:0 0 15px var(--border-gem);
+transition:0.3s ease;
+}
+
+.theme-panel.hidden{
+opacity:0;
+transform:translateX(20px);
+pointer-events:none;
+}
+
+.theme-orb{
+width:22px;
+height:22px;
+border-radius:50%;
+cursor:pointer;
+border:2px solid white;
+transition:0.3s;
+}
+
+.theme-orb:hover{transform:scale(1.2);}
+
+.gold{background:linear-gradient(135deg,#bf953f,#fcf6ba);}
+.emerald{background:linear-gradient(135deg,#065f46,#10b981);}
+.ruby{background:linear-gradient(135deg,#7f1d1d,#ef4444);}
+.sapphire{background:linear-gradient(135deg,#1e3a8a,#3b82f6);}
+
+</style>
 </head>
 
 <body>
-    <div class="container">
-        <h2>Login</h2>
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        {% for message in messages %}
-        <div class="flash {% if 'success' in message|lower %}success{% else %}error{% endif %}">{{ message }}</div>
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
-        <form method="POST">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit">Login</button>
-        </form>
-        <div class="links">
-            Don't have an account? <a href="{{ url_for('register') }}">Register</a>
-        </div>
-    </div>
-</body>
 
+<canvas id="particles"></canvas>
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- THEME SWITCH -->
+<div class="theme-wrapper">
+<button class="theme-toggle" onclick="toggleThemePanel()" id="themeArrow">❮</button>
+<div class="theme-panel" id="themePanel">
+<div class="theme-orb gold" onclick="setTheme('default')"></div>
+<div class="theme-orb emerald" onclick="setTheme('emerald')"></div>
+<div class="theme-orb ruby" onclick="setTheme('ruby')"></div>
+<div class="theme-orb sapphire" onclick="setTheme('sapphire')"></div>
+</div>
+</div>
+
+<div class="container">
+<h2>Login</h2>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<div class="flash">{{ message }}</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<form method="POST">
+<div class="form-group">
+<label>Username</label>
+<input type="text" name="username" required>
+</div>
+
+<div class="form-group">
+<label>Password</label>
+<input type="password" name="password" required>
+</div>
+
+<button type="submit">Login</button>
+</form>
+
+<div class="links">
+Don't have an account? <a href="{{ url_for('register') }}">Register</a>
+</div>
+</div>
+
+<script>
+
+/* PARTICLES */
+const canvas=document.getElementById("particles");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let particles=[];
+for(let i=0;i<60;i++){
+particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2+1,d:Math.random()*1});
+}
+
+function draw(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle="rgba(255,255,255,0.6)";
+ctx.beginPath();
+for(let p of particles){
+ctx.moveTo(p.x,p.y);
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2,true);
+}
+ctx.fill();
+update();
+}
+
+let angle=0;
+function update(){
+angle+=0.01;
+for(let p of particles){
+p.y+=Math.cos(angle+p.d)+1+p.r/2;
+p.x+=Math.sin(angle)*0.5;
+if(p.y>canvas.height){p.y=-10;}
+}
+}
+
+setInterval(draw,33);
+
+/* CURSOR GLOW */
+const glow=document.getElementById("cursorGlow");
+document.addEventListener("mousemove",(e)=>{
+glow.style.left=e.clientX+"px";
+glow.style.top=e.clientY+"px";
+});
+
+/* 3D TILT */
+const card=document.querySelector(".container");
+card.addEventListener("mousemove",(e)=>{
+const rect=card.getBoundingClientRect();
+const x=e.clientX-rect.left;
+const y=e.clientY-rect.top;
+const rotateX=(y-rect.height/2)/15;
+const rotateY=(rect.width/2-x)/15;
+card.style.transform=`rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+});
+card.addEventListener("mouseleave",()=>{card.style.transform="rotateX(0) rotateY(0)";});
+
+/* RIPPLE */
+document.querySelectorAll("button").forEach(btn=>{
+btn.addEventListener("click",function(e){
+const circle=document.createElement("span");
+const diameter=Math.max(this.clientWidth,this.clientHeight);
+circle.style.width=circle.style.height=diameter+"px";
+circle.style.left=e.offsetX-diameter/2+"px";
+circle.style.top=e.offsetY-diameter/2+"px";
+circle.classList.add("ripple");
+this.appendChild(circle);
+setTimeout(()=>circle.remove(),600);
+});
+});
+
+/* THEME SYSTEM */
+function setTheme(theme){
+if(theme==="default"){
+document.body.removeAttribute("data-theme");
+localStorage.removeItem("theme");
+}else{
+document.body.setAttribute("data-theme",theme);
+localStorage.setItem("theme",theme);
+}
+}
+
+function toggleThemePanel(){
+const panel=document.getElementById("themePanel");
+const arrow=document.getElementById("themeArrow");
+panel.classList.toggle("hidden");
+arrow.innerHTML=panel.classList.contains("hidden")?"❯":"❮";
+localStorage.setItem("themePanel",panel.classList.contains("hidden")?"hidden":"show");
+}
+
+window.onload=function(){
+const savedTheme=localStorage.getItem("theme");
+if(savedTheme){document.body.setAttribute("data-theme",savedTheme);}
+const panelState=localStorage.getItem("themePanel");
+if(panelState==="hidden"){
+document.getElementById("themePanel").classList.add("hidden");
+document.getElementById("themeArrow").innerHTML="❯";
+}
+}
+</script>
+
+</body>
 </html>
