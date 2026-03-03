@@ -5,112 +5,214 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Secure Mini Drive</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #4f46e5;
-            --danger: #dc2626;
-            --bg: #f9fafb;
-            --text: #111827;
+            /* Luxury Color Palette */
+            --gold-gradient: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            --gold-solid: #d4af37;
+            --dark-bg: #0a0a0a;
+            --card-bg: #1a1a1a;
+            --text-light: #e0e0e0;
+            --border-gold: rgba(212, 175, 55, 0.3);
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
+            background-color: var(--dark-bg);
+            background-image: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%);
+            color: var(--text-light);
             margin: 0;
             padding: 2rem;
+            min-height: 100vh;
+        }
+
+        /* Luxury Typography */
+        h1, h3 {
+            font-family: 'Cinzel', serif;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
+            border-bottom: 1px solid var(--border-gold);
+            padding-bottom: 1rem;
         }
 
         .user-info {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 1.5rem;
+        }
+
+        .user-info span {
+            font-weight: 300;
+            color: #888;
+        }
+
+        .user-info strong {
+            color: var(--gold-solid);
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
         }
 
         .logout-btn {
-            color: var(--danger);
+            color: #ff4d4d;
             text-decoration: none;
-            font-size: 0.875rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid #ff4d4d;
+            padding: 0.4rem 1rem;
+            border-radius: 4px;
+            transition: 0.3s;
         }
 
+        .logout-btn:hover {
+            background: #ff4d4d;
+            color: white;
+            box-shadow: 0 0 15px rgba(255, 77, 77, 0.4);
+        }
+
+        /* Sections */
         .upload-section {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 1rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 4px; /* Sharp corners feel more premium */
+            margin-bottom: 3rem;
+            border: 1px solid var(--border-gold);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Subtle gold line on top */
+        .upload-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: var(--gold-gradient);
         }
 
         .upload-form {
             display: flex;
-            gap: 1rem;
+            gap: 1.5rem;
             align-items: center;
         }
 
-        table {
-            width: 100%;
-            background: white;
-            border-radius: 1rem;
-            overflow: hidden;
-            border-collapse: collapse;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        /* Input Customization */
+        input[type="file"] {
+            color: #888;
+            background: #000;
+            padding: 0.5rem;
+            border: 1px solid #333;
+            border-radius: 4px;
         }
 
-        th,
-        td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid #f3f4f6;
+        /* Table Styling */
+        table {
+            width: 100%;
+            background: var(--card-bg);
+            border-radius: 4px;
+            overflow: hidden;
+            border-collapse: collapse;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            border: 1px solid var(--border-gold);
         }
 
         th {
-            background: #fdfdfd;
-            font-weight: 600;
-            font-size: 0.875rem;
+            background: #252525;
+            color: var(--gold-solid);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            padding: 1.2rem 1rem;
+            border-bottom: 1px solid var(--border-gold);
         }
 
+        td {
+            padding: 1.2rem 1rem;
+            border-bottom: 1px solid #2a2a2a;
+            font-weight: 300;
+        }
+
+        tr:hover {
+            background: rgba(212, 175, 55, 0.03);
+        }
+
+        /* Button Styling */
         .btn {
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
+            padding: 0.7rem 1.5rem;
+            border-radius: 2px;
             text-decoration: none;
-            font-size: 0.875rem;
-            font-weight: 500;
+            font-size: 0.75rem;
+            font-weight: 600;
             cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.4s ease;
             border: none;
         }
 
         .btn-primary {
-            background: var(--primary);
-            color: white;
+            background: var(--gold-gradient);
+            color: #000;
+            box-shadow: 0 4px 15px rgba(184, 134, 11, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(184, 134, 11, 0.4);
+            filter: brightness(1.1);
         }
 
         .btn-danger {
-            background: #fee2e2;
-            color: var(--danger);
+            background: transparent;
+            color: #888;
+            border: 1px solid #444;
         }
 
+        .btn-danger:hover {
+            background: #dc2626;
+            color: white;
+            border-color: #dc2626;
+        }
+
+        /* Flash Messages */
         .flash {
             padding: 1rem;
-            border-radius: 0.5rem;
-            margin-bottom: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+            border-left: 4px solid;
         }
 
         .flash.success {
-            background: #dcfce7;
-            color: #166534;
+            background: rgba(22, 101, 52, 0.2);
+            color: #4ade80;
+            border-color: #4ade80;
         }
 
         .flash.error {
-            background: #fee2e2;
-            color: #991b1b;
+            background: rgba(153, 27, 27, 0.2);
+            color: #f87171;
+            border-color: #f87171;
+        }
+
+        /* Empty state */
+        .no-data {
+            text-align: center;
+            color: #555 !important;
+            padding: 3rem !important;
+            font-style: italic;
         }
     </style>
 </head>
@@ -127,20 +229,21 @@
     {% with messages = get_flashed_messages() %}
     {% if messages %}
     {% for message in messages %}
-    <div
-        class="flash {% if 'success' in message|lower or 'successful' in message|lower %}success{% else %}error{% endif %}">
-        {{ message }}</div>
+    <div class="flash {% if 'success' in message|lower or 'successful' in message|lower %}success{% else %}error{% endif %}">
+        {{ message }}
+    </div>
     {% endfor %}
     {% endif %}
     {% endwith %}
 
     <div class="upload-section">
-        <h3>Upload New File</h3>
+        <h3>Upload New Asset</h3>
         <form action="{{ url_for('upload_file') }}" method="POST" enctype="multipart/form-data" class="upload-form">
             <input type="file" name="file" required>
-            <button type="submit" class="btn btn-primary">Upload</button>
+            <button type="submit" class="btn btn-primary">Deposit File</button>
         </form>
-        <p style="font-size: 0.75rem; color: #6b7280; margin-top: 0.5rem;">Allowed: png, jpg, jpeg, mp4, mov (Max 50MB)
+        <p style="font-size: 0.7rem; color: #555; margin-top: 1rem; text-transform: uppercase; letter-spacing: 1px;">
+            Supported formats: Luxury Media (PNG, JPG, MP4, MOV) | Limit: 50MB
         </p>
     </div>
 
@@ -157,21 +260,23 @@
         <tbody>
             {% for file in files %}
             <tr>
-                <td>{{ file['filename'].split('_', 1)[1] if '_' in file['filename'] else file['filename'] }}</td>
-                <td>{{ file['filetype'].upper() }}</td>
+                <td style="color: var(--gold-solid); font-weight: 500;">
+                    {{ file['filename'].split('_', 1)[1] if '_' in file['filename'] else file['filename'] }}
+                </td>
+                <td><span style="background: #333; padding: 2px 8px; border-radius: 3px; font-size: 0.7rem;">{{ file['filetype'].upper() }}</span></td>
                 <td>{{ (file['filesize'] / 1024 / 1024) | round(2) }} MB</td>
                 <td>{{ file['uploaded_at'].strftime('%Y-%m-%d %H:%M') }}</td>
                 <td style="display: flex; gap: 0.5rem;">
-                    <a href="{{ url_for('download_file', file_id=file['id']) }}" class="btn btn-primary">Download</a>
+                    <a href="{{ url_for('download_file', file_id=file['id']) }}" class="btn btn-primary" style="padding: 0.4rem 0.8rem; font-size: 0.65rem;">Download</a>
                     <form action="{{ url_for('delete_file', file_id=file['id']) }}" method="POST" style="margin: 0;"
-                        onsubmit="return confirm('Are you sure?')">
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                        onsubmit="return confirm('Confirm deletion of this secure asset?')">
+                        <button type="submit" class="btn btn-danger" style="padding: 0.4rem 0.8rem; font-size: 0.65rem;">Delete</button>
                     </form>
                 </td>
             </tr>
             {% else %}
             <tr>
-                <td colspan="5" style="text-align: center; color: #6b7280;">No files uploaded yet.</td>
+                <td colspan="5" class="no-data">The vault is currently empty.</td>
             </tr>
             {% endfor %}
         </tbody>
